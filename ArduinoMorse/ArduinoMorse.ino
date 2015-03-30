@@ -9,7 +9,7 @@ int var = 0;
 int var2 = 0;
 char input[6];
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
-int choice = 0;
+int choice = -1;
 bool chosen = false;
 char alpha[] = "abcdefghijklmnopqrstuvwxyz ";
 int alphaChoice = 0;
@@ -110,6 +110,11 @@ void loop() {
         if (alphaChoice > 25) {
           alphaChoice = 0;
         }
+      } else if (button1) {
+        alphaChoice--;
+        if (alphaChoice < 0) {
+          alphaChoice = 25;
+        }
       } else if (button3) {
 
 
@@ -133,9 +138,20 @@ void loop() {
         lcd.setCursor(var2, 1);
         lcd.print(result);
         lcd.print(" ");
-        //var2++;
 
         var2 += result.length();
+
+        if (var2 > 16)  {
+          for (var2; var2 >= 0; var2--) {
+            lcd.setCursor(var2 - 1, 1);
+            lcd.print(' ');
+          }
+          var2 = 0;
+
+          lcd.setCursor(var2, 1);
+          lcd.print(result);
+          lcd.print(" ");
+        }
 
         delay(200);
 
@@ -157,19 +173,25 @@ void loop() {
     lcd.setCursor(0, 0);
     if (button) {
       choice++;
-      if (choice > 2) {
+      if (choice > 3) {
         choice = 0;
       }
     } else if (button2) {
       choice--;
       if (choice < 0) {
-        choice = 2;
+        choice = 3;
       }
     } else if (button3) {
       chosen = true;
     } else {
     }
     switch (choice) {
+      case -1:
+        //lcd.clear();
+        lcd.print("Code Translator");
+        lcd.setCursor(0, 1);
+        lcd.print("Buttons to nav");
+        break;
       case 0:
         //lcd.clear();
         lcd.print("Morse To English");
@@ -181,6 +203,10 @@ void loop() {
       case 2:
         lcd.clear();
         lcd.print("Other");
+        break;
+      case 3:
+        lcd.clear();
+        lcd.print("Help");
         break;
     }
     delay(200);
