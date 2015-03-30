@@ -163,6 +163,11 @@ void loop() {
       delay(200);
 
 
+    } else if (choice == 3){
+      lcd.setCursor(0, 0);
+      lcd.print("Figure it out");
+      lcd.setCursor(0, 1);
+      lcd.print("By Yourself :D");
     } else {
       lcd.setCursor(0, 0);
       lcd.print("No Function Yet...");
